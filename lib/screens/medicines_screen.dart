@@ -46,6 +46,28 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
     }
   }
 
+  Future<void> openMedicineDetails(int index) async {
+    final medicine = medicines[index];
+
+    final deleted = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MedicineDetailsScreen(
+          name: medicine['name']!,
+          dosage: medicine['dosage']!,
+          time: medicine['time']!,
+          frequency: medicine['frequency']!,
+        ),
+      ),
+    );
+
+    if (deleted == true) {
+      setState(() {
+        medicines.removeAt(index);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +76,7 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFFF8FAF8),
         elevation: 0,
+
         title: const Text(
           'My Medicines',
           style: TextStyle(
@@ -93,11 +116,12 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
             Expanded(
               child: ListView.builder(
                 itemCount: medicines.length,
+
                 itemBuilder: (context, index) {
                   final medicine = medicines[index];
 
                   return medicineCard(
-                    context,
+                    index,
                     medicine['name']!,
                     medicine['dosage']!,
                     medicine['time']!,
@@ -124,7 +148,7 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
   }
 
   Widget medicineCard(
-    BuildContext context,
+    int index,
     String name,
     String dosage,
     String time,
@@ -134,21 +158,12 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
       borderRadius: BorderRadius.circular(18),
 
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MedicineDetailsScreen(
-              name: name,
-              dosage: dosage,
-              time: time,
-              frequency: frequency,
-            ),
-          ),
-        );
+        openMedicineDetails(index);
       },
 
       child: Container(
         margin: const EdgeInsets.only(bottom: 15),
+
         padding: const EdgeInsets.all(18),
 
         decoration: BoxDecoration(
@@ -179,6 +194,7 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+
                 children: [
 
                   Text(

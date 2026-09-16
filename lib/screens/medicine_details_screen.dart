@@ -14,6 +14,46 @@ class MedicineDetailsScreen extends StatelessWidget {
     required this.frequency,
   });
 
+  void deleteMedicine(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Delete Medicine'),
+          content: Text(
+            'Are you sure you want to delete $name?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context, true);
+              },
+              child: const Text(
+                'Delete',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,9 +175,13 @@ class MedicineDetailsScreen extends StatelessWidget {
               height: 52,
 
               child: OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  deleteMedicine(context);
+                },
 
-                icon: const Icon(Icons.delete_outline),
+                icon: const Icon(
+                  Icons.delete_outline,
+                ),
 
                 label: const Text(
                   'Delete Medicine',
