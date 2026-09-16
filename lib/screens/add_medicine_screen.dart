@@ -31,6 +31,27 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
     }
   }
 
+  void saveMedicine() {
+    if (medicineController.text.trim().isEmpty ||
+        dosageController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter medicine name and dosage'),
+        ),
+      );
+      return;
+    }
+
+    final medicine = {
+      'name': medicineController.text.trim(),
+      'dosage': dosageController.text.trim(),
+      'time': selectedTime.format(context),
+      'frequency': selectedFrequency,
+    };
+
+    Navigator.pop(context, medicine);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,18 +163,22 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
 
             InkWell(
               onTap: selectTime,
+
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 18,
                 ),
+
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
                 ),
+
                 child: Row(
                   children: [
+
                     const Icon(
                       Icons.access_time_rounded,
                       color: Color(0xFF43A047),
@@ -192,6 +217,7 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
 
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 15),
+
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
@@ -201,6 +227,7 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
                 child: DropdownButton<String>(
                   value: selectedFrequency,
                   isExpanded: true,
+
                   items: const [
                     DropdownMenuItem(
                       value: 'Once a day',
@@ -219,6 +246,7 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
                       child: Text('As needed'),
                     ),
                   ],
+
                   onChanged: (value) {
                     setState(() {
                       selectedFrequency = value!;
@@ -235,19 +263,12 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
               height: 55,
 
               child: ElevatedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'Medicine added successfully!',
-                      ),
-                    ),
-                  );
-                },
+                onPressed: saveMedicine,
 
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF43A047),
                   foregroundColor: Colors.white,
+
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),

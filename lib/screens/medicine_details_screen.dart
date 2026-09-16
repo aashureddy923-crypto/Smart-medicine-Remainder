@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 
 class MedicineDetailsScreen extends StatelessWidget {
-  const MedicineDetailsScreen({super.key});
+  final String name;
+  final String dosage;
+  final String time;
+  final String frequency;
+
+  const MedicineDetailsScreen({
+    super.key,
+    required this.name,
+    required this.dosage,
+    required this.time,
+    required this.frequency,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +44,7 @@ class MedicineDetailsScreen extends StatelessWidget {
                 color: const Color(0xFFE8F5E9),
                 borderRadius: BorderRadius.circular(30),
               ),
+
               child: const Icon(
                 Icons.medication_rounded,
                 size: 60,
@@ -42,9 +54,9 @@ class MedicineDetailsScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            const Text(
-              'Paracetamol',
-              style: TextStyle(
+            Text(
+              name,
+              style: const TextStyle(
                 fontSize: 27,
                 fontWeight: FontWeight.bold,
               ),
@@ -52,9 +64,9 @@ class MedicineDetailsScreen extends StatelessWidget {
 
             const SizedBox(height: 6),
 
-            const Text(
-              '500 mg',
-              style: TextStyle(
+            Text(
+              dosage,
+              style: const TextStyle(
                 fontSize: 17,
                 color: Colors.grey,
               ),
@@ -65,25 +77,25 @@ class MedicineDetailsScreen extends StatelessWidget {
             detailCard(
               Icons.access_time_rounded,
               'Time',
-              '9:00 AM',
+              time,
             ),
 
             detailCard(
               Icons.repeat_rounded,
               'Frequency',
-              'Every day',
+              frequency,
             ),
 
             detailCard(
               Icons.calendar_today_rounded,
               'Start Date',
-              '15 September 2026',
+              '16 September 2026',
             ),
 
             detailCard(
               Icons.note_alt_outlined,
               'Notes',
-              'Take after food',
+              'Take as prescribed',
             ),
 
             const SizedBox(height: 20),
@@ -91,9 +103,12 @@ class MedicineDetailsScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               height: 52,
+
               child: ElevatedButton.icon(
                 onPressed: () {},
+
                 icon: const Icon(Icons.edit),
+
                 label: const Text(
                   'Edit Medicine',
                   style: TextStyle(
@@ -101,9 +116,11 @@ class MedicineDetailsScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF43A047),
                   foregroundColor: Colors.white,
+
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -116,18 +133,26 @@ class MedicineDetailsScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               height: 52,
+
               child: OutlinedButton.icon(
                 onPressed: () {},
+
                 icon: const Icon(Icons.delete_outline),
+
                 label: const Text(
                   'Delete Medicine',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
                 ),
+
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.red,
+
                   side: const BorderSide(
                     color: Colors.red,
                   ),
+
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -147,8 +172,11 @@ class MedicineDetailsScreen extends StatelessWidget {
   ) {
     return Container(
       width: double.infinity,
+
       margin: const EdgeInsets.only(bottom: 12),
+
       padding: const EdgeInsets.all(17),
+
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -159,10 +187,12 @@ class MedicineDetailsScreen extends StatelessWidget {
 
           Container(
             padding: const EdgeInsets.all(10),
+
             decoration: BoxDecoration(
               color: const Color(0xFFE8F5E9),
               borderRadius: BorderRadius.circular(12),
             ),
+
             child: Icon(
               icon,
               color: const Color(0xFF43A047),
@@ -174,6 +204,7 @@ class MedicineDetailsScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               Text(
                 title,
                 style: const TextStyle(

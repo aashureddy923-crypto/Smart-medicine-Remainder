@@ -1,7 +1,50 @@
 import 'package:flutter/material.dart';
+import 'add_medicine_screen.dart';
+import 'medicine_details_screen.dart';
 
-class MedicinesScreen extends StatelessWidget {
+class MedicinesScreen extends StatefulWidget {
   const MedicinesScreen({super.key});
+
+  @override
+  State<MedicinesScreen> createState() => _MedicinesScreenState();
+}
+
+class _MedicinesScreenState extends State<MedicinesScreen> {
+  List<Map<String, String>> medicines = [
+    {
+      'name': 'Paracetamol',
+      'dosage': '500 mg',
+      'time': '9:00 AM',
+      'frequency': 'Every day',
+    },
+    {
+      'name': 'Vitamin D',
+      'dosage': '1 Tablet',
+      'time': '8:00 PM',
+      'frequency': 'Once a day',
+    },
+    {
+      'name': 'Calcium',
+      'dosage': '1 Tablet',
+      'time': '9:00 PM',
+      'frequency': 'Once a day',
+    },
+  ];
+
+  Future<void> addMedicine() async {
+    final newMedicine = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AddMedicineScreen(),
+      ),
+    );
+
+    if (newMedicine != null) {
+      setState(() {
+        medicines.add(newMedicine);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,34 +91,19 @@ class MedicinesScreen extends StatelessWidget {
             const SizedBox(height: 25),
 
             Expanded(
-              child: ListView(
-                children: [
+              child: ListView.builder(
+                itemCount: medicines.length,
+                itemBuilder: (context, index) {
+                  final medicine = medicines[index];
 
-                  medicineCard(
-                    'Paracetamol',
-                    '500 mg',
-                    '9:00 AM',
-                    'Every day',
-                    Icons.medication_rounded,
-                  ),
-
-                  medicineCard(
-                    'Vitamin D',
-                    '1 Tablet',
-                    '8:00 PM',
-                    'Once a day',
-                    Icons.medication_rounded,
-                  ),
-
-                  medicineCard(
-                    'Calcium',
-                    '1 Tablet',
-                    '9:00 PM',
-                    'Once a day',
-                    Icons.medication_rounded,
-                  ),
-
-                ],
+                  return medicineCard(
+                    context,
+                    medicine['name']!,
+                    medicine['dosage']!,
+                    medicine['time']!,
+                    medicine['frequency']!,
+                  );
+                },
               ),
             ),
           ],
@@ -84,9 +112,9 @@ class MedicinesScreen extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF43A047),
-        onPressed: () {
-          // Add medicine screen will be connected later
-        },
+
+        onPressed: addMedicine,
+
         child: const Icon(
           Icons.add,
           color: Colors.white,
@@ -96,81 +124,100 @@ class MedicinesScreen extends StatelessWidget {
   }
 
   Widget medicineCard(
+    BuildContext context,
     String name,
     String dosage,
     String time,
     String frequency,
-    IconData icon,
   ) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 15),
-      padding: const EdgeInsets.all(18),
+    return InkWell(
+      borderRadius: BorderRadius.circular(18),
 
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-      ),
-
-      child: Row(
-        children: [
-
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: const Color(0xFFE8F5E9),
-              borderRadius: BorderRadius.circular(15),
-            ),
-
-            child: Icon(
-              icon,
-              color: const Color(0xFF43A047),
-              size: 28,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MedicineDetailsScreen(
+              name: name,
+              dosage: dosage,
+              time: time,
+              frequency: frequency,
             ),
           ),
+        );
+      },
 
-          const SizedBox(width: 15),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 15),
+        padding: const EdgeInsets.all(18),
 
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(18),
+        ),
 
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+        child: Row(
+          children: [
 
-                const SizedBox(height: 5),
+            Container(
+              padding: const EdgeInsets.all(14),
 
-                Text(
-                  dosage,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                  ),
-                ),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE8F5E9),
+                borderRadius: BorderRadius.circular(15),
+              ),
 
-                const SizedBox(height: 5),
-
-                Text(
-                  '$time • $frequency',
-                  style: const TextStyle(
-                    color: Color(0xFF43A047),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
+              child: const Icon(
+                Icons.medication_rounded,
+                color: Color(0xFF43A047),
+                size: 28,
+              ),
             ),
-          ),
 
-          const Icon(
-            Icons.arrow_forward_ios_rounded,
-            size: 17,
-            color: Colors.grey,
-          ),
-        ],
+            const SizedBox(width: 15),
+
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 5),
+
+                  Text(
+                    dosage,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+
+                  const SizedBox(height: 5),
+
+                  Text(
+                    '$time • $frequency',
+                    style: const TextStyle(
+                      color: Color(0xFF43A047),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 17,
+              color: Colors.grey,
+            ),
+          ],
+        ),
       ),
     );
   }
