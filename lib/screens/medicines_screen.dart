@@ -49,7 +49,7 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
   Future<void> openMedicineDetails(int index) async {
     final medicine = medicines[index];
 
-    final deleted = await Navigator.push(
+    final result = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => MedicineDetailsScreen(
@@ -61,9 +61,13 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
       ),
     );
 
-    if (deleted == true) {
+    if (result == true) {
       setState(() {
         medicines.removeAt(index);
+      });
+    } else if (result is Map<String, String>) {
+      setState(() {
+        medicines[index] = result;
       });
     }
   }
@@ -92,7 +96,6 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             const Text(
               'Your Medicines',
               style: TextStyle(
@@ -173,7 +176,6 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
 
         child: Row(
           children: [
-
             Container(
               padding: const EdgeInsets.all(14),
 
@@ -194,9 +196,7 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-
                 children: [
-
                   Text(
                     name,
                     style: const TextStyle(

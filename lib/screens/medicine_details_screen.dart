@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'edit_medicine_screen.dart';
 
 class MedicineDetailsScreen extends StatelessWidget {
   final String name;
@@ -35,7 +36,6 @@ class MedicineDetailsScreen extends StatelessWidget {
                 ),
               ),
             ),
-
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -52,6 +52,24 @@ class MedicineDetailsScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<void> editMedicine(BuildContext context) async {
+    final updatedMedicine = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditMedicineScreen(
+          name: name,
+          dosage: dosage,
+          time: time,
+          frequency: frequency,
+        ),
+      ),
+    );
+
+    if (updatedMedicine != null) {
+      Navigator.pop(context, updatedMedicine);
+    }
   }
 
   @override
@@ -76,7 +94,6 @@ class MedicineDetailsScreen extends StatelessWidget {
 
         child: Column(
           children: [
-
             Container(
               width: 110,
               height: 110,
@@ -84,7 +101,6 @@ class MedicineDetailsScreen extends StatelessWidget {
                 color: const Color(0xFFE8F5E9),
                 borderRadius: BorderRadius.circular(30),
               ),
-
               child: const Icon(
                 Icons.medication_rounded,
                 size: 60,
@@ -145,7 +161,9 @@ class MedicineDetailsScreen extends StatelessWidget {
               height: 52,
 
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  editMedicine(context);
+                },
 
                 icon: const Icon(Icons.edit),
 
@@ -228,7 +246,6 @@ class MedicineDetailsScreen extends StatelessWidget {
 
       child: Row(
         children: [
-
           Container(
             padding: const EdgeInsets.all(10),
 
@@ -248,7 +265,6 @@ class MedicineDetailsScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Text(
                 title,
                 style: const TextStyle(
