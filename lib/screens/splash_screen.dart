@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../navigation/main_navigation_screen.dart';
+import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const MainNavigationScreen(),
+          builder: (context) => const LoginScreen(),
         ),
       );
     });
@@ -29,30 +29,38 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFE8F5E9),
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 110,
-              height: 110,
+              width: 120,
+              height: 120,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(32),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 20,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
               child: const Icon(
                 Icons.medication_rounded,
-                size: 65,
+                size: 70,
                 color: Color(0xFF43A047),
               ),
             ),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: 28),
 
             const Text(
               'Smart Medicine',
               style: TextStyle(
-                fontSize: 28,
+                fontSize: 29,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF2E7D32),
               ),
@@ -70,8 +78,23 @@ class _SplashScreenState extends State<SplashScreen> {
 
             const SizedBox(height: 35),
 
-            const CircularProgressIndicator(
-              color: Color(0xFF43A047),
+            const SizedBox(
+              width: 28,
+              height: 28,
+              child: CircularProgressIndicator(
+                strokeWidth: 3,
+                color: Color(0xFF43A047),
+              ),
+            ),
+
+            const SizedBox(height: 18),
+
+            const Text(
+              'Take care of your health',
+              style: TextStyle(
+                fontSize: 13,
+                color: Colors.grey,
+              ),
             ),
           ],
         ),
