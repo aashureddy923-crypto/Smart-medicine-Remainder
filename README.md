@@ -1,17 +1,64 @@
-# smart_medicine_reminder
+Smart Medicine Reminder 💊
 
-A new Flutter project.
+Smart Medicine Reminder is a Flutter project I am working on to help users keep track of their medicines and remember when they need to take them.
 
-## Getting Started
+I mainly focused on making the app simple and easy to use, with a clean healthcare-themed design.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+ What I have added
+- Splash screen
+- Login and Register screens
+- Home page
+- Medicines list
+- Add medicine
+- Edit medicine
+- Delete medicine
+- Medicine details
+- Profile page
+- Bottom navigation
+- Basic navigation between screens
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Built With
+- Flutter
+- Dart
+- VS Code
+- Android Studio
+- Git and GitHub
+
+## Project Structure
+
+```text
+smart_medicine_reminder/
+│
+├── android/
+├── ios/
+├── web/
+│
+├── lib/
+│   │
+│   ├── main.dart
+│   │
+│   ├── navigation/
+│   │   └── main_navigation_screen.dart
+│   │
+│   ├── screens/
+│   │   ├── splash_screen.dart
+│   │   ├── login_screen.dart
+│   │   ├── register_screen.dart
+│   │   ├── home_screen.dart
+│   │   ├── medicines_screen.dart
+│   │   ├── add_medicine_screen.dart
+│   │   ├── medicine_details_screen.dart
+│   │   ├── edit_medicine_screen.dart
+│   │   └── profile_screen.dart
+│   │
+│   └── widgets/
+│       ├── bottom_nav.dart
+│       └── medicine_card.dart
+│
+├── test/
+│   └── widget_test.dart
+│
+├── pubspec.yaml
+└── README.md
