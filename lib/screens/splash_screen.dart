@@ -68,13 +68,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
             const SizedBox(height: 8),
 
-            const Text(
-              'Never miss your medicine',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black54,
-              ),
-            ),
+            const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: Text(
+                  'Manage your medicines and stay on track with your daily doses.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 16,
+                      height: 1.5,
+                      color: Colors.black54,
+                      ),
+                 ),
+             ),
 
             const SizedBox(height: 35),
 
