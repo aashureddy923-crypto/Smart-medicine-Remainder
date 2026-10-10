@@ -1,4 +1,7 @@
+
 import 'package:flutter/material.dart';
+
+import '../services/medicine_storage.dart';
 import 'add_medicine_screen.dart';
 import 'medicine_details_screen.dart';
 
@@ -10,7 +13,11 @@ class MedicinesScreen extends StatefulWidget {
 }
 
 class _MedicinesScreenState extends State<MedicinesScreen> {
-  List<Map<String, String>> medicines = [
+  List<Map<String, String>> medicines = [];
+
+  bool isLoading = true;
+
+  final List<Map<String, String>> defaultMedicines = [
     {
       'name': 'Paracetamol',
       'dosage': '500 mg',
@@ -31,19 +38,71 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
     },
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    loadMedicines();
+  }
+
+  Future<void> loadMedicines() async {
+    try {
+      final savedMedicines = await MedicineStorage.loadMedicines();
+
+      if (!mounted) return;
+
+      if (savedMedicines.isNotEmpty) {
+        setState(() {
+          medicines = savedMedicines;
+          isLoading = false;
+        });
+      } else {
+        final initialMedicines = defaultMedicines
+            .map((medicine) => Map<String, String>.from(medicine))
+            .toList();
+
+        await MedicineStorage.saveMedicines(initialMedicines);
+
+        if (!mounted) return;
+
+        setState(() {
+          medicines = initialMedicines;
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error loading medicines: $e');
+
+      if (!mounted) return;
+
+      setState(() {
+        medicines = defaultMedicines
+            .map((medicine) => Map<String, String>.from(medicine))
+            .toList();
+
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> saveMedicines() async {
+    await MedicineStorage.saveMedicines(medicines);
+  }
+
   Future<void> addMedicine() async {
-    final newMedicine = await Navigator.push(
+    final newMedicine = await Navigator.push<Map<String, String>>(
       context,
       MaterialPageRoute(
         builder: (context) => const AddMedicineScreen(),
       ),
     );
 
-    if (newMedicine != null) {
-      setState(() {
-        medicines.add(newMedicine);
-      });
-    }
+    if (!mounted || newMedicine == null) return;
+
+    setState(() {
+      medicines.add(newMedicine);
+    });
+
+    await saveMedicines();
   }
 
   Future<void> openMedicineDetails(int index) async {
@@ -53,22 +112,28 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => MedicineDetailsScreen(
-          name: medicine['name']!,
-          dosage: medicine['dosage']!,
-          time: medicine['time']!,
-          frequency: medicine['frequency']!,
+          name: medicine['name'] ?? '',
+          dosage: medicine['dosage'] ?? '',
+          time: medicine['time'] ?? '',
+          frequency: medicine['frequency'] ?? '',
         ),
       ),
     );
+
+    if (!mounted) return;
 
     if (result == true) {
       setState(() {
         medicines.removeAt(index);
       });
+
+      await saveMedicines();
     } else if (result is Map<String, String>) {
       setState(() {
         medicines[index] = result;
       });
+
+      await saveMedicines();
     }
   }
 
@@ -76,11 +141,9 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAF8),
-
       appBar: AppBar(
         backgroundColor: const Color(0xFFF8FAF8),
         elevation: 0,
-
         title: const Text(
           'My Medicines',
           style: TextStyle(
@@ -89,10 +152,8 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
           ),
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(20),
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -103,9 +164,7 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 6),
-
             const Text(
               'Keep track of all your medicines.',
               style: TextStyle(
@@ -113,35 +172,39 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
                 fontSize: 15,
               ),
             ),
-
             const SizedBox(height: 25),
-
             Expanded(
-              child: ListView.builder(
-                itemCount: medicines.length,
+              child: isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: Color(0xFF43A047),
+                      ),
+                    )
+                  : medicines.isEmpty
+                      ? const Center(
+                          child: Text('No medicines added yet.'),
+                        )
+                      : ListView.builder(
+                          itemCount: medicines.length,
+                          itemBuilder: (context, index) {
+                            final medicine = medicines[index];
 
-                itemBuilder: (context, index) {
-                  final medicine = medicines[index];
-
-                  return medicineCard(
-                    index,
-                    medicine['name']!,
-                    medicine['dosage']!,
-                    medicine['time']!,
-                    medicine['frequency']!,
-                  );
-                },
-              ),
+                            return medicineCard(
+                              index,
+                              medicine['name'] ?? '',
+                              medicine['dosage'] ?? '',
+                              medicine['time'] ?? '',
+                              medicine['frequency'] ?? '',
+                            );
+                          },
+                        ),
             ),
           ],
         ),
       ),
-
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF43A047),
-
-        onPressed: addMedicine,
-
+        onPressed: isLoading ? null : addMedicine,
         child: const Icon(
           Icons.add,
           color: Colors.white,
@@ -159,40 +222,31 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
   ) {
     return InkWell(
       borderRadius: BorderRadius.circular(18),
-
       onTap: () {
         openMedicineDetails(index);
       },
-
       child: Container(
         margin: const EdgeInsets.only(bottom: 15),
-
         padding: const EdgeInsets.all(18),
-
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(18),
         ),
-
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(14),
-
               decoration: BoxDecoration(
                 color: const Color(0xFFE8F5E9),
                 borderRadius: BorderRadius.circular(15),
               ),
-
               child: const Icon(
                 Icons.medication_rounded,
                 color: Color(0xFF43A047),
                 size: 28,
               ),
             ),
-
             const SizedBox(width: 15),
-
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,18 +258,14 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 5),
-
                   Text(
                     dosage,
                     style: const TextStyle(
                       color: Colors.grey,
                     ),
                   ),
-
                   const SizedBox(height: 5),
-
                   Text(
                     '$time • $frequency',
                     style: const TextStyle(
@@ -226,7 +276,6 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
                 ],
               ),
             ),
-
             const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 17,
