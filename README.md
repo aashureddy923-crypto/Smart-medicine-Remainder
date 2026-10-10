@@ -211,9 +211,9 @@ flutter run
 
 ## Screenshots
 
-Here are some screenshots of the application.
 
-Add screenshots of the actual app here, such as the splash screen, login page, home screen, medicine list, add medicine page, and medicine details page.
+
+
 
 ## What I Learned
 
