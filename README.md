@@ -88,77 +88,92 @@ smart_medicine_reminder/
 
 The following sections describe how the concepts from the Flutter lab were used while developing the application. The exact experiment titles and numbering should follow the lab manual.
 
+## Experiment-Wise Work
+
 ### Experiment 1 – Getting Started with Flutter and Dart
 
-I started by setting up the Flutter development environment and creating the project. I explored the basic project files and understood how a Flutter application starts running.
+In this experiment, I learned about Flutter and Dart and how they are used to develop mobile applications. Flutter is a framework used to create user interfaces, while Dart is the programming language used to write the application code.
 
-I also worked with Dart syntax and the `main()` function, which acts as the entry point of the application. This helped me understand the basic structure before moving on to the actual app screens.
+I set up the Flutter project and explored its basic folder structure. I also learned about the `main()` function, which is the starting point of a Flutter application, and how the `runApp()` function starts displaying the app.
+
+This experiment helped me understand the basic setup required before developing the Smart Medicine Reminder application.
 
 ### Experiment 2 – Working with Flutter Widgets
 
-In this part, I used Flutter widgets to build the application's user interface. Widgets such as `Text`, `Container`, `Icon`, `Card`, `Row`, `Column`, and `Scaffold` helped me arrange the content on different screens.
+In this experiment, I learned that Flutter uses widgets to build the user interface. Almost every element on the screen, such as text, buttons, icons, and layouts, is created using widgets.
 
-I used these widgets to create the home screen, medicine list, and other parts of the application. I also learned how padding, alignment, and spacing affect the overall appearance of a screen.
+I used widgets like `Text`, `Container`, `Scaffold`, `AppBar`, `Icon`, `Card`, `Row`, and `Column` while designing my application screens. Each widget has a different purpose. For example, `Text` displays information, `Icon` displays symbols, and `Row` and `Column` help arrange elements horizontally and vertically.
+
+By using these widgets, I created the basic layout of the home screen and the medicine-related screens.
 
 ### Experiment 3 – Designing the Application Screens
 
-After learning the basic widgets, I worked on arranging the app screens and making the layout consistent.
+In this experiment, I focused on arranging the different elements on the screen and making the application easy to use. A good layout helps users find the information they need without confusion.
 
-I used separate Dart files for different screens instead of writing the entire application in one file. This made it easier to work on each page individually and maintain the same style throughout the app.
+I used padding, margins, alignment, colours, and text styles to organize the content. I also created separate screens for different purposes instead of keeping all the interface code in a single file.
+
+For Smart Medicine Reminder, I designed screens such as the splash screen, login page, registration page, home page, and medicine list. This helped me understand how different widgets work together to form a complete user interface.
 
 ### Experiment 4 – Navigation Between Screens
 
-The application contains multiple screens, so navigation is an important part of the project.
+In this experiment, I learned how to move from one screen to another in a Flutter application. Navigation is important because an application usually contains multiple pages that are connected to one another.
 
-I worked on moving between the home screen, medicine list, add medicine page, medicine details, and other sections. I also used bottom navigation to make the main sections easier to access.
+I used Flutter's navigation features to open different screens based on the user's actions. For example, users can move from the medicine list to the add medicine screen, open a medicine's details, and access other sections of the application.
 
-This helped me understand how screens can communicate with one another and how information can be passed back after completing an action.
+I also worked on bottom navigation so users can move between the main sections more easily. This experiment helped me understand how to connect different screens and return information from one screen to another when needed.
 
 ### Experiment 5 – Managing Application State
 
-The medicine list changes whenever a user adds, edits, or deletes an entry. For this, I used stateful widgets and `setState()` where the interface needs to update after a change.
+In this experiment, I learned how to update the user interface when the data in an application changes. In Flutter, a `StatefulWidget` is useful when a screen needs to change after a user performs an action.
 
-For example, after adding a medicine, the updated list can be displayed instead of requiring the entire app to be reopened manually.
+I used `setState()` to refresh the displayed information when necessary. For example, when a medicine is added, edited, or deleted, the medicine list needs to reflect the changes.
 
-Working on this part helped me understand the difference between a screen that only displays information and one that needs to respond to user actions.
+This concept is useful in Smart Medicine Reminder because the medicine information is not always the same. The application needs to update the screen whenever the user makes changes.
 
-### Experiment 6 – Reusable Widgets and UI Organization
+### Experiment 6 – Reusable Widgets and Code Organization
 
-As the number of screens increased, I organized common interface elements into separate widget files.
+In this experiment, I focused on organizing the code and reusing common UI components. When an application contains many screens, writing the same code repeatedly can make the project difficult to maintain.
 
-The project includes files such as `medicine_card.dart` and `bottom_nav.dart`. Keeping reusable components separate avoids repeating the same UI code in multiple places and makes later changes easier.
+To avoid this, I separated the application into different folders for screens, navigation, widgets, and services. I also created reusable components such as `medicine_card.dart` and `bottom_nav.dart`.
 
-I also worked on keeping the colours, icons, spacing, and layout consistent across the application.
+Reusable widgets help keep the interface consistent and make it easier to modify common elements later. This experiment helped me understand the importance of writing organized and manageable code.
 
 ### Experiment 7 – Forms and User Input
 
-The app has screens where users can enter information, such as the login, registration, and add medicine pages.
+In this experiment, I learned how to accept information from users through input fields and forms. Forms are useful when an application needs the user to enter details instead of displaying fixed information.
 
-I worked on arranging the input fields and buttons and handling the information entered through the interface. The add and edit medicine flows allow the medicine information to be entered or updated.
+In my project, the login and registration screens contain fields for user input, while the add medicine screen is used to enter medicine details. The edit medicine screen allows existing information to be changed.
 
-This part gave me practice in building forms and connecting user input to the application's functionality.
+I worked on arranging the fields and buttons and connecting the entered information to the relevant application screens. This helped me understand how user input can be handled in a Flutter application.
 
 ### Experiment 8 – Handling User Actions
 
-I added interactions for the main actions available in the app, such as opening medicine details, adding a medicine, editing its information, and deleting an entry.
+In this experiment, I worked on making the application respond to user interactions. Buttons and other interactive elements allow users to perform actions instead of simply viewing the screen.
 
-These actions connect the interface with the application logic. I also worked on updating the displayed information after a medicine is changed.
+In Smart Medicine Reminder, users can select a medicine, open its details, add a new entry, edit existing information, and delete a medicine. The application needs to respond to these actions and update the displayed information where required.
+
+This experiment helped me understand how the user interface and application logic work together to provide a useful experience.
 
 ### Experiment 9 – Saving Data Locally
 
-Initially, the medicine information was handled by the application while it was running. I then added local storage using the `shared_preferences` package.
+In this experiment, I learned how to store application data locally so that it can be loaded again later. Without data storage, information held only in the current application state may be lost when the app is restarted.
 
-The file `medicine_storage.dart` handles saving and loading the medicine list. JSON encoding and decoding are used to convert the list into a format that can be stored and retrieved.
+I used the `shared_preferences` package to save the medicine information on the device. I created a separate file named `medicine_storage.dart` to handle saving and loading the data.
 
-This allows the app to load saved medicine information when it is opened again, rather than relying only on the current screen state.
+The medicine list is converted into JSON format before it is saved and converted back when it is loaded. This allows the application to retrieve previously saved medicine information instead of depending only on temporary data in memory.
+
+This experiment helped me understand the basics of local data storage and how it can be connected to different screens in an application.
 
 ### Experiment 10 – Testing and Debugging
 
-During development, I checked the application for errors and tested the different screens and actions.
+In this experiment, I learned why testing and debugging are important during application development. Even if the interface looks correct, errors may occur when navigating between screens, updating information, or loading saved data.
 
-I used commands such as `flutter analyze` to identify code issues and worked on correcting errors when they appeared. I also checked the medicine list, screen navigation, and local storage functionality during development.
+I used Flutter tools and terminal commands to check the project and identify issues. The `flutter analyze` command helped me find code warnings and other issues that needed attention.
 
-This part helped me understand that testing and debugging are important because even a small issue in one file can affect another part of the application.
+I also checked the main application flows, including navigation, medicine management, and local storage. When errors appeared, I worked on understanding the cause and correcting the code.
+
+This experiment helped me understand that testing is an important part of development because it improves the reliability of the application.
+
 
 ## Running the Project
 
